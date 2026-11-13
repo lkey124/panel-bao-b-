@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tạo Artboard &amp; Lưới Bao Bì</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-title">
+        <span class="badge-ai">Ai</span>
+        <div>
+          <h1>BẢNG TẠO ARTBOARD &amp; LƯỚI BAO BÌ CHUẨN (CM)</h1>
+          <p>Chọn mẫu kích thước chuẩn (Hình 2) • Chọn số lượng Artboard • Chỉnh Mép &amp; Lưới (Hình 1) • Tạo xong tự tắt</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div id="statusBox" class="status-box"></div>
+        <button id="btnUpdate" class="btn-update hidden" title="Có phiên bản mới - bấm để cập nhật">🔔 Cập nhật</button>
+        <span id="lblVersion" class="version-badge" title="Bấm để kiểm tra cập nhật">v?</span>
+        <button onclick="location.reload()" class="btn-mini" title="Làm mới giao diện">↻</button>
+      </div>
+    </header>
+
+    <!-- Khung thông báo bản cập nhật -->
+    <div id="updateBox" class="update-box hidden">
+      <div class="update-head">
+        <b id="updateTitle">Có phiên bản mới</b>
+        <button id="btnUpdateClose" class="btn-mini">✕</button>
+      </div>
+      <div id="updateNotes" class="update-notes"></div>
+      <div class="update-actions">
+        <button id="btnUpdateNow" class="btn-primary-sm">⬇ Cập nhật ngay</button>
+        <span id="updateProgress" class="update-progress"></span>
+      </div>
+    </div>
+
+    <!-- BỐ CỤC 2 CỘT RỘNG RÃI HIỂN THỊ ĐẦY ĐỦ -->
+    <div class="main-layout">
+      <!-- CỘT TRÁI: BẢNG 31 KÍCH THƯỚC CHUẨN HIỂN THỊ ĐẦY ĐỦ -->
+      <section class="card col-left">
+        <div class="card-header">
+          <span>1. BẢNG 31 KÍCH THƯỚC CHUẨN (NHẤP ĐÚP ĐỂ TẠO &amp; TỰ TẮT)</span>
+          <button id="btnResetPresets" class="btn-mini" title="Khôi phục 31 mẫu gốc">↺ Khôi phục gốc</button>
+        </div>
+
+        <div class="filter-row">
+          <select id="selGroup" class="input-select">
+            <option value="ALL">Tất cả dung tích / KL (31 mẫu)</option>
+            <option value="100 ml/g">100 ml/g</option>
+            <option value="250 ml/g">250 ml/g</option>
+            <option value="500 ml/g">500 ml/g</option>
+            <option value="1 lít/kg">1 lít/kg</option>
+            <option value="5 lít">5 lít</option>
+            <option value="10kg">10kg</option>
+            <option value="20 kg">20 kg</option>
+          </select>
+          <input id="txtSearch" type="text" class="input-text" placeholder="🔍 Tìm nhanh: túi, chai, hũ, 24.5..." />
+        </div>
+
+        <div class="preset-table-wrap">
+          <table class="preset-table">
+            <thead>
+              <tr>
+                <th style="width:76px;">Cột 1</th>
+                <th style="width:90px;">Kích thước</th>
+                <th style="width:115px;">Loại</th>
+                <th>Ghi chú / Thông số Mép</th>
+              </tr>
+            </thead>
+            <tbody id="presetTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="preset-actions">
+          <button id="btnSaveMargin" class="btn-secondary" title="Lưu số đo 4 mép hiện tại vào mẫu đang chọn">
+            💾 Lưu Mép vào mẫu đang chọn
+          </button>
+          <button id="btnToggleAddModal" class="btn-secondary">➕ Thêm mẫu mới</button>
+          <button id="btnDeletePreset" class="btn-danger-mini" title="Xóa mẫu đang chọn">🗑️ Xóa</button>
+        </div>
+
+        <!-- Khung thêm mẫu mới (ẩn mặc định) -->
+        <div id="addPresetBox" class="add-preset-box hidden">
+          <div class="grid-3">
+            <div>
+              <label>Cột 1 (Dung tích/KL)</label>
+              <input id="newGroup" type="text" class="input-text" value="500 ml/g" />
+            </div>
+            <div>
+              <label>Loại bao bì</label>
+              <input id="newType" type="text" class="input-text" value="Chai / Decal" />
+            </div>
+            <div>
+              <label>Ghi chú</label>
+              <input id="newNote" type="text" class="input-text" placeholder="Ghi chú..." />
+            </div>
+          </div>
+          <div class="preset-actions" style="margin-top:5px;">
+            <button id="btnConfirmAdd" class="btn-primary-sm">Lưu vào bảng</button>
+            <button id="btnCancelAdd" class="btn-secondary">Hủy</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- CỘT PHẢI: KÍCH THƯỚC, SỐ LƯỢNG ARTBOARD, THÔNG SỐ MÉP & MÔ PHỎNG HÌNH 1 -->
+      <div class="col-right">
+        <!-- 2. KÍCH THƯỚC & SỐ LƯỢNG ARTBOARD -->
+        <section class="card">
+          <div class="card-header">
+            <span>2. KÍCH THƯỚC &amp; SỐ LƯỢNG ARTBOARD CẦN TẠO</span>
+            <button id="btnSwapWH" class="btn-mini" title="Đảo chiều Rộng và Cao">⇄ Đảo Rộng/Cao</button>
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <label>Chiều Rộng - W (cm)</label>
+              <input id="txtWidth" type="number" step="0.1" class="input-num" value="24.5" />
+            </div>
+            <div>
+              <label>Chiều Cao - H (cm)</label>
+              <input id="txtHeight" type="number" step="0.1" class="input-num" value="8.5" />
+            </div>
+          </div>
+
+          <!-- Chọn số lượng Artboard -->
+          <div class="ab-count-box">
+            <div class="ab-count-top">
+              <div style="width:105px;">
+                <label style="color:#ffd166;font-weight:700;">Số lượng Artboard:</label>
+                <input id="txtNumArtboards" type="number" min="1" max="100" step="1" class="input-num highlight-input" value="1" />
+              </div>
+              <div style="flex:1;">
+                <label>Chọn nhanh số lượng Artboard:</label>
+                <div class="quick-count-btns">
+                  <button type="button" class="btn-qcount active" data-count="1">1</button>
+                  <button type="button" class="btn-qcount" data-count="2">2</button>
+                  <button type="button" class="btn-qcount" data-count="3">3</button>
+                  <button type="button" class="btn-qcount" data-count="4">4</button>
+                  <button type="button" class="btn-qcount" data-count="5">5</button>
+                  <button type="button" class="btn-qcount" data-count="6">6</button>
+                  <button type="button" class="btn-qcount" data-count="8">8</button>
+                  <button type="button" class="btn-qcount" data-count="10">10</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-2" style="margin-top:4px;">
+              <div>
+                <label>Khoảng cách các Artboard (cm)</label>
+                <input id="txtAbGap" type="number" step="0.5" min="0.2" class="input-num" value="2.0" />
+              </div>
+              <div>
+                <label>Số Artboard trên 1 hàng ngang</label>
+                <input id="txtAbCols" type="number" step="1" min="1" max="20" class="input-num" value="4" />
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top:5px;">
+            <div>
+              <label>Chế độ tạo</label>
+              <select id="selMode" class="input-select">
+                <option value="NEW_DOC">Tạo File mới (CMYK - cm)</option>
+                <option value="ADD_AB">Thêm Artboard vào File đang mở</option>
+                <option value="UPDATE_CURRENT">Áp dụng lên Artboard hiện tại</option>
+              </select>
+            </div>
+            <div>
+              <label>Tên Artboard</label>
+              <input id="txtAbName" type="text" class="input-text" value="500ml_Chai_tron_24.5x8.5cm" />
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. THÔNG SỐ 4 MÉP RIÊNG & CHIA ĐỀU Ở GIỮA (HÌNH 1) -->
+        <section class="card">
+          <div class="card-header">
+            <span>3. THÔNG SỐ MÉP RIÊNG &amp; CHIA ĐỀU VÙNG GIỮA (HÌNH 1)</span>
+          </div>
+
+          <div class="margin-grid">
+            <div class="margin-item">
+              <label>Mép Trái (cm)</label>
+              <input id="txtMarginLeft" type="number" step="0.1" class="input-num" value="1.0" />
+            </div>
+            <div class="margin-lock">
+              <label title="Khóa Mép Phải = Mép Trái">
+                <input id="chkLockLR" type="checkbox" /> 🔗
+              </label>
+            </div>
+            <div class="margin-item">
+              <label>Mép Phải (cm)</label>
+              <input id="txtMarginRight" type="number" step="0.1" class="input-num" value="1.0" />
+            </div>
+          </div>
+
+          <div class="margin-grid" style="margin-top:4px;">
+            <div class="margin-item">
+              <label>Mép Trên (cm)</label>
+              <input id="txtMarginTop" type="number" step="0.1" class="input-num" value="0.6" />
+            </div>
+            <div class="margin-lock">
+              <label title="Khóa Mép Dưới = Mép Trên">
+                <input id="chkLockTB" type="checkbox" /> 🔗
+              </label>
+            </div>
+            <div class="margin-item">
+              <label>Mép Dưới (cm)</label>
+              <input id="txtMarginBottom" type="number" step="0.1" class="input-num" value="0.6" />
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top:5px;">
+            <div>
+              <label>Chia đều ở giữa (Cột dọc - Hình 1 = 3)</label>
+              <input id="txtCenterCols" type="number" min="1" max="20" step="1" class="input-num" value="3" />
+            </div>
+            <div>
+              <label>Chia hàng ngang giữa (1 = không chia)</label>
+              <input id="txtCenterRows" type="number" min="1" max="20" step="1" class="input-num" value="1" />
+            </div>
+          </div>
+
+          <!-- KHUNG MÔ PHỎNG HÌNH 1 -->
+          <div class="preview-row">
+            <canvas id="previewCanvas" width="155" height="86"></canvas>
+            <div class="preview-info">
+              <div id="calcSummary" class="calc-summary"></div>
+              <div class="checkbox-list">
+                <label><input id="chkExtendOutside" type="checkbox" checked /> Lưới tràn ngoài Artboard (Hình 1)</label>
+                <label><input id="chkSeparateLayer" type="checkbox" checked /> Layer riêng (Luoi_Guides_BaoBi)</label>
+                <label><input id="chkClearOld" type="checkbox" checked /> Xóa lưới cũ khi cập nhật</label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. NÚT BẤM THỰC THI & TỰ TẮT -->
+        <div class="action-footer">
+          <div class="auto-close-row">
+            <label style="color:#7ef4a8;font-weight:600;cursor:pointer;">
+              <input id="chkAutoClose" type="checkbox" checked />
+              ✓ Tự động tắt bảng ngay sau khi Tạo xong
+            </label>
+          </div>
+          <div class="footer-btns">
+            <button id="btnCreateAll" class="btn-primary">
+              🚀 TẠO ARTBOARD &amp; KẺ LƯỚI NGAY
+            </button>
+            <button id="btnUpdateGridOnly" class="btn-secondary" title="Chỉ cập nhật lại lưới trên Artboard hiện tại">
+              🔄 Cập Nhật Lưới
+            </button>
+            <button id="btnClearGrid" class="btn-secondary" title="Xóa lưới trên Artboard hiện tại">
+              🧹 Xóa Lưới
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="CSInterface.js"></script>
+  <script src="main.js"></script>
+  <script src="updater.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+    "version":  "2.1.0",
+    "date":  "2026-11-13 14:25",
+    "notes":  "• Thêm nút Cập nhật tự động\n• Chọn số lượng Artboard\n• Giao diện cửa sổ nổi ổn định hơn",
+    "restartRequired":  false,
+    "manifestCore":  "201A00695AF6518FC931F1F7C2D8B29745FBFF80DD4645582AF82C621D41924A",
+    "script":  "script/Tao_Artboard_Va_Luoi_BaoBi.jsx",
+    "installer":  "Artboard_Luoi_BaoBi_Pro.zip",
+    "files":  [
+                  "CSInterface.js",
+                  "CSXS/manifest.xml",
+                  "index.html",
+                  "index.jsx",
+                  "main.js",
+                  "style.css",
+                  "updater.js"
+              ]
+}

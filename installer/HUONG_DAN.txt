@@ -1,0 +1,40 @@
+﻿=====================================================================
+   TẠO ARTBOARD & LƯỚI BAO BÌ PRO  -  Plugin cho Adobe Illustrator
+   Phiên bản 2.1.0
+=====================================================================
+
+YÊU CẦU
+  - Windows 10 / 11
+  - Adobe Illustrator CC 2015 trở lên (đã thử trên Illustrator 2024)
+
+CÀI ĐẶT (chỉ 3 bước)
+  1. Giải nén toàn bộ file ZIP ra một thư mục (KHÔNG chạy trực tiếp trong ZIP).
+  2. TẮT Adobe Illustrator.
+  3. Nhấp đúp file  CAI_DAT.bat  và chờ báo "CÀI ĐẶT HOÀN TẤT".
+     (Nếu Windows hiện cảnh báo SmartScreen: bấm "More info" > "Run anyway")
+
+SỬ DỤNG
+  - Mở Illustrator > menu  Window > Extensions > Tạo Artboard & Lưới Bao Bì
+  - Hoặc: File > Scripts > Tao_Artboard_Va_Luoi_BaoBi
+
+  1. Chọn mẫu trong bảng 31 kích thước chuẩn (hoặc nhập Rộng x Cao cm).
+  2. Chọn số lượng Artboard (1, 2, 3 ... 100).
+  3. Nhập Mép Trái / Phải / Trên / Dưới riêng cho nhãn; vùng giữa tự chia đều.
+  4. Bấm "TẠO ARTBOARD & KẺ LƯỚI NGAY"  (hoặc nhấp đúp vào dòng mẫu).
+     -> Bảng tự đóng sau khi tạo xong.
+
+  Mẹo: Bấm "Lưu Mép vào mẫu đang chọn" để bảng nhớ số đo mép cho lần sau.
+
+CẬP NHẬT PHIÊN BẢN MỚI
+  - Khi có bản mới, góc trên Panel hiện nút cam "🔔 Cập nhật vX.X.X".
+  - Bấm nút > "Cập nhật ngay" là xong, KHÔNG cần cài lại.
+  - Bấm vào số phiên bản (vd v2.1.0) để kiểm tra cập nhật thủ công.
+
+GỠ CÀI ĐẶT
+  - Tắt Illustrator, nhấp đúp  GO_CAI_DAT.bat
+
+XỬ LÝ SỰ CỐ
+  - Không thấy trong Window > Extensions: chạy lại CAI_DAT.bat rồi khởi động
+    lại Illustrator.
+  - Không có trong File > Scripts: chuột phải CAI_DAT.bat > "Run as administrator".
+=====================================================================
